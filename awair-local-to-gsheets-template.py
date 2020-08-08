@@ -5,6 +5,7 @@ import requests
 import httplib2
 import os
 
+from datetime import datetime
 from apiclient import discovery
 from google.oauth2 import service_account
 from urllib3.exceptions import InsecureRequestWarning
@@ -17,10 +18,11 @@ awair_url = ''
 spreadsheet_id = ''
 range_name = ''
 
+# secret_file = '/path/to/client_secret.json'
 secret_file = os.path.join(os.getcwd(), 'client_secret.json')
-# secret_file = ''
 
-sensors_list = []
+
+sensors_list = ["","","","","","","","","","","","","","","",""]
 
 def get_from_awair_and_push_to_gsheets():
 	def fetch_from_awair():
@@ -42,37 +44,39 @@ def get_from_awair_and_push_to_gsheets():
 	def build_gsheets_entry(sensors):
 		for sensor in sensors.keys():
 			if sensor == 'timestamp':
-				sensors_list.append(str(sensors[sensor]))
+				sensor_datetime_string = sensors[sensor]
+				datetime_string = datetime.strptime(sensor_datetime_string, "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y-%m-%d %H:%M:%S")
+				sensors_list[0:1] = [datetime_string]
 			elif sensor == 'score':
-				sensors_list.append(sensors[sensor])
+				sensors_list[1:2] = [sensors[sensor]]
 			elif sensor == 'dew_point':
-				sensors_list.append(sensors[sensor])
+				sensors_list[2:3] = [sensors[sensor]]
 			elif sensor == 'temp':
-				sensors_list.append(sensors[sensor])
+				sensors_list[3:4] = [sensors[sensor]]
 			elif sensor == 'humid':
-				sensors_list.append(sensors[sensor])
+				sensors_list[4:5] = [sensors[sensor]]
 			elif sensor == 'abs_humid':
-				sensors_list.append(sensors[sensor])
+				sensors_list[5:6] = [sensors[sensor]]
 			elif sensor == 'co2':
-				sensors_list.append(sensors[sensor])
+				sensors_list[6:7] = [sensors[sensor]]
 			elif sensor == 'co2_est':
-				sensors_list.append(sensors[sensor])
+				sensors_list[7:8] = [sensors[sensor]]
 			elif sensor == 'voc':
-				sensors_list.append(sensors[sensor])
+				sensors_list[8:9] = [sensors[sensor]]
 			elif sensor == 'voc_baseline':
-				sensors_list.append(sensors[sensor])
-			elif sensor == 'voc_ethanol_raw':
-				sensors_list.append(sensors[sensor])
+				sensors_list[9:10] = [sensors[sensor]]
 			elif sensor == 'voc_h2_raw':
-				sensors_list.append(sensors[sensor])
+				sensors_list[10:11] = [sensors[sensor]]
+			elif sensor == 'voc_ethanol_raw':
+				sensors_list[11:12] = [sensors[sensor]]
 			elif sensor == 'pm25':
-				sensors_list.append(sensors[sensor])
+				sensors_list[12:13] = [sensors[sensor]]
 			elif sensor == 'pm10_est':
-				sensors_list.append(sensors[sensor])
+				sensors_list[13:14] = [sensors[sensor]]
 			elif sensor == 'lux':
-				sensors_list.append(sensors[sensor])
+				sensors_list[14:15] = [sensors[sensor]]
 			elif sensor == 'spl_a':
-				sensors_list.append(sensors[sensor])
+				sensors_list[15:16] = [sensors[sensor]]
 			else:
 				print("[unknown_key] " + sensor + ": " + sensors[sensor])
 		print(str(sensors_list))
